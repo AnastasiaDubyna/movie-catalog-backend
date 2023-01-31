@@ -12,10 +12,7 @@ const jsonParser = bodyParser.json();
 app.use(cors({origin: "http://localhost:3000"}));
 app.use('/review', jsonParser, reviewRouter);
 
-app.listen(5000, () => console.log(`Listening on port 5000`));
-
 mongoose.connect(process.env.MONGO_CONNECTION_LINK)
-    .then(_ => app.listen(8080, () => {
+    .then(_ => app.listen(5000, () => {
         console.log("Server is running");
-        initDatabase();
     }));
