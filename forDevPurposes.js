@@ -1,3 +1,4 @@
+const { MOVIE } = require('./contants');
 const Media = require('./models/Media');
 const Review = require('./models/Review');
 
@@ -6,7 +7,9 @@ const initDatabase = async () => {
     await Media.collection.drop();
 
     const pussInBootsMovie = new Media({
-        tmdb_id: 315162
+        tmdb_id: 315162,
+        favourite: true,
+        type: MOVIE
     });
 
     const pussInBootsReview1 = new Review({
