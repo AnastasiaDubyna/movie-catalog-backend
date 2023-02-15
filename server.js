@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const reviewRouter = require('./router/reviewRouter');
 const favouritesRouter = require('./router/favouritesRouter');
 const mongoose = require('mongoose');
+const { graphqlHTTP } = require('express-graphql');
 const initDatabase = require('./forDevPurposes');
 
 const app = express();
@@ -13,6 +14,9 @@ const jsonParser = bodyParser.json();
 app.use(cors({origin: "http://localhost:3000"}));
 app.use('/review', jsonParser, reviewRouter);
 app.use('/favourite', jsonParser, favouritesRouter);
+app.use('/graphql', graphqlHTTP({
+
+}));
 
 mongoose.connect(process.env.MONGO_CONNECTION_LINK)
     .then(_ => app.listen(5000, () => {

@@ -1,4 +1,5 @@
 const Media = require("../models/Media");
+const { findOneByTmdbId } = require("../services/reviewService");
 
 const getFavouritesIdByType = async ({query: {type}}, res) => {
     const medias = await Media
@@ -8,13 +9,36 @@ const getFavouritesIdByType = async ({query: {type}}, res) => {
 
     const results = medias.map(obj => obj.tmdb_id);
 
-    console.log(results);
-
     res.send({
         results
     });
 };
 
+const getIsFavourite = async ({query: {id}}, res) => {
+    const media = await findOneByTmdbId(id);
+
+    res.send({
+        isFavourite: media ? media.favourite : false
+    });
+};
+
+const addFavourite = async ({query: {id, type}}, res) => {
+    const media = await findOneByTmdbId(id) || new Media({tmdb_id: id, type});
+    media.favourite = true;
+    await media.save();
+    res.sendStatus(201);
+};
+
+const removeFavourite = async ({query: {id}}, res) => {
+    const media = await findOneByTmdbId(id);
+    media.favourite = false;
+    await media.save();
+    res.sendStatus(201);
+}
+
 module.exports = {
-    getFavouritesIdByType
+    getFavouritesIdByType,
+    getIsFavourite,
+    addFavourite,
+    removeFavourite
 };
