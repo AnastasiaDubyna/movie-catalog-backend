@@ -7,7 +7,7 @@ const getAllReviewsById = async ({params: {tmdbId}}, res) => {
 
     const reviews = mediaItem ? await Promise.all(mediaItem.reviews.map(async reviewId => await Review.findById(reviewId))) : [];
 
-    res.send(reviews);
+    res.send({reviews});
 };
 
 const postReview = async({body}, res) => {
